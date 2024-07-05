@@ -45,7 +45,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Hi Sarah, how are you feeling today?"):
+if prompt := st.chat_input("مرحبًا، كيف حالك اليوم؟"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -69,4 +69,8 @@ if prompt := st.chat_input("Hi Sarah, how are you feeling today?"):
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
 
-st.download_button("Download", str(st.session_state.messages),  file_name=file_name)
+formatted_output = ''
+for message in st.session_state.messages:
+    role = '🙂' if message['role'] == 'user' else '🤖'
+    formatted_output += f'{role}: "{message["content"]}"\n\n'
+st.download_button("Download", formatted_output,  file_name=file_name)
